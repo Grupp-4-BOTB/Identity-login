@@ -1,4 +1,5 @@
-using Identity.Application.Services;
+using Identity_login.Application.Interfaces;
+using Identity_login.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Principal;
 
@@ -7,7 +8,7 @@ using System.Security.Principal;
 //när du startar det.
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<Identity.Infrastructure.Data.DataContext>(options =>
+builder.Services.AddDbContext<Identity_login.Infrastructure.Data.DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
@@ -29,13 +30,14 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddScoped<ExternalApiClient>();
+
 
 // Registrera dina Repositories och Services i Dependency Injection
-builder.Services.AddScoped<Identity.Domain.Interface.IAuthRepository, Identity.Infrastructure.Repositories.AuthRepository>();
-builder.Services.AddScoped<Identity.Application.Interfaces.IAuthService, Identity.Application.Services.AuthService>();
 
-builder.Services.AddScoped<ExternalApiClient>();
+builder.Services.AddScoped<IAuthRepository, Identity_login.Infrastructure.Repositories.AuthRepository>();
+builder.Services.AddScoped<Identity_login.Application.Services.AuthService>();
+
+
 builder.Services.AddHttpClient();
 
 var app = builder.Build();
