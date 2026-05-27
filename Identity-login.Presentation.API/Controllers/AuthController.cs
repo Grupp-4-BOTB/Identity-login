@@ -55,7 +55,7 @@ public class AuthController : ControllerBase
             return Unauthorized(new { Meddelande = "Fel användarnamn eller lösenord" });
         }
 
-        // HÄR SKICKAS Tokens tillbaka till klienten
+        // HÄR SKICKAS Tokens tillbaka till klienten som en del av svaret.
         return Ok(new
         {
             Message = "Inloggning lyckades!",
