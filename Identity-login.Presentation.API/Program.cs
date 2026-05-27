@@ -30,8 +30,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-
-
 // Registrera dina Repositories och Services i Dependency Injection
 
 builder.Services.AddScoped<IAuthRepository, Identity_login.Infrastructure.Repositories.AuthRepository>();
