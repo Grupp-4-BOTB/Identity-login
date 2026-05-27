@@ -1,9 +1,8 @@
 ﻿using System.Security.Principal;
+using Identity_login.Application.Services;
+namespace Identity_login.Presentation.API.Controllers;
+using Identity_login.Application.DTOs;
 
-namespace Identity_login.Presentation.API.Controllers
-using Identity.Application.DTOs;
-using Identity.Application.Interfaces;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -11,23 +10,24 @@ using System.Threading.Tasks;
 // alla inkommande HTTP-anrop för inloggning, registrering och utloggning från din React-frontend.
 // Dess uppgift är att kontrollera att den inskickade datan är giltig och skicka den vidare till AuthService som sköter själva logiken.
 
-namespace IdentityWebApi.Controllers;
 // Anger grund-URL:en för alla endpoints i denna fil.
+
+
 [Route("api/[controller]")]
 [ApiController]
 public class AuthController : ControllerBase
 {
-    private readonly IAuthService _authService;
+    private readonly AuthService _authService;
 
     // Konstruktor för Dependency Injection
-    public AuthController(IAuthService authService)
+    public AuthController(AuthService authService)
     {
         _authService = authService;
     }
 
     // ENDPOINT 1: Registrering. Lyssnar på en HTTP POST-request på URL:en /api/auth/register
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+    public async Task<IActionResult> Register([FromBody] Identity_login.Application.DTOs.RegisterRequest request)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -44,7 +44,7 @@ public class AuthController : ControllerBase
 
     // ENDPOINT 2: Inloggning. Lyssnar på en HTTP POST-request på URL:en /api/auth/login
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+    public async Task<IActionResult> Login([FromBody] Identity_login.Application.DTOs.LoginRequest loginRequest)
     {
         // Vi anropar den uppdaterade tjänsten
         var tokenResult = await _authService.LoginAsync(loginRequest);
@@ -69,16 +69,16 @@ public class AuthController : ControllerBase
 
 
     // ENDPOINT 3: Utloggning. Lyssnar på en HTTP POST-request på URL:en /api/auth/logout
-    [HttpPost("logout")]
-    public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
-    {
+   // [HttpPost("logout")]
+   // public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
+    //{
         // Skickar användarens e-post till vår service för att hantera utloggningslogiken
-        var result = await _authService.LogoutAsync(request.Email);
+      //  var result = await _authService.LogoutAsync(request.Email);
 
-        if (!result)
-            return BadRequest(new { message = "Logout failed." });
+       // if (!result)
+       //     return BadRequest(new { message = "Logout failed." });
 
-        return Ok(new { message = "Logged out successfully!" });
+      //  return Ok(new { message = "Logged out successfully!" });
 
-    }
+   // }
 }
