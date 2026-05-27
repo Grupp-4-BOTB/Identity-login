@@ -1,5 +1,7 @@
 using Identity_login.Application.Interfaces;
 using Identity_login.Domain.Entities;
+using Identity_login.Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Principal;
 
@@ -29,8 +31,9 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
     });
 });
-
 // Registrera dina Repositories och Services i Dependency Injection
+builder.Services.AddIdentityApiEndpoints<Identity_login.Domain.Entities.UserEntity>()
+    .AddEntityFrameworkStores<Identity_login.Infrastructure.Data.DataContext>();
 
 builder.Services.AddScoped<IAuthRepository, Identity_login.Infrastructure.Repositories.AuthRepository>();
 builder.Services.AddScoped<Identity_login.Application.Services.AuthService>();
