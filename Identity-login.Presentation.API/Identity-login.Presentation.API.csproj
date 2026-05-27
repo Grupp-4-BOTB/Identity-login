@@ -19,9 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Identity-login.Application\Identity-login.Application.csproj" />
-    <ProjectReference Include="..\..\Identity-login.Domain\Identity-login.Domain.csproj" />
-    <ProjectReference Include="..\..\Identity-login.Infrastructure\Identity-login.Infrastructure.csproj" />
+    <ProjectReference Include="..\Identity-login.Application\Identity-login.Application.csproj" />
+    <ProjectReference Include="..\Identity-login.Domain\Identity-login.Domain.csproj" />
+    <ProjectReference Include="..\Identity-login.Infrastructure\Identity-login.Infrastructure.csproj" />
   </ItemGroup>
+
+  
 
 </Project>
