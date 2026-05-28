@@ -11,6 +11,10 @@
     <PackageReference Include="BCrypt.Net-Next" Version="4.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.8">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.8" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
@@ -19,9 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Identity-login.Application\Identity-login.Application.csproj" />
-    <ProjectReference Include="..\..\Identity-login.Domain\Identity-login.Domain.csproj" />
-    <ProjectReference Include="..\..\Identity-login.Infrastructure\Identity-login.Infrastructure.csproj" />
+    <ProjectReference Include="..\Identity-login.Application\Identity-login.Application.csproj" />
+    <ProjectReference Include="..\Identity-login.Domain\Identity-login.Domain.csproj" />
+    <ProjectReference Include="..\Identity-login.Infrastructure\Identity-login.Infrastructure.csproj" />
   </ItemGroup>
+
+  
 
 </Project>

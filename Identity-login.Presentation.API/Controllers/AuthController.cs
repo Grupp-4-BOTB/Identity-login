@@ -1,17 +1,18 @@
 ﻿using System.Security.Principal;
-using Identity_login.Application.Services;
-namespace Identity_login.Presentation.API.Controllers;
 using Identity_login.Application.DTOs;
 
+using Identity_login.Application.Interfaces;
+using Identity_login.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using RegisterRequest = Identity_login.Application.DTOs.RegisterRequest;
 
 // AuthController fungerar som en dörrvakt för ditt API som tar emot och hanterar
 // alla inkommande HTTP-anrop för inloggning, registrering och utloggning från din React-frontend.
 // Dess uppgift är att kontrollera att den inskickade datan är giltig och skicka den vidare till AuthService som sköter själva logiken.
 
 // Anger grund-URL:en för alla endpoints i denna fil.
-
+namespace Identity_login.Presentation.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
