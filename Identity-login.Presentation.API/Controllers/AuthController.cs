@@ -70,16 +70,16 @@ public class AuthController : ControllerBase
 
 
     // ENDPOINT 3: Utloggning. Lyssnar på en HTTP POST-request på URL:en /api/auth/logout
-   // [HttpPost("logout")]
-   // public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
-    //{
-        // Skickar användarens e-post till vår service för att hantera utloggningslogiken
-      //  var result = await _authService.LogoutAsync(request.Email);
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
+    {
+       //  Skickar användarens e-post till vår service för att hantera utloggningslogiken
+        var result = await _authService.LogoutAsync(request.Email);
 
-       // if (!result)
-       //     return BadRequest(new { message = "Logout failed." });
+       if (!result)
+            return BadRequest(new { message = "Logout failed." });
 
-      //  return Ok(new { message = "Logged out successfully!" });
+       return Ok(new { message = "Logged out successfully!" });
 
-   // }
+   }
 }

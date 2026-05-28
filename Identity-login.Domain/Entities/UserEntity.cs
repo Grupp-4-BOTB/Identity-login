@@ -12,7 +12,7 @@ namespace Identity_login.Domain.Entities
 
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenCreated { get; set; }
-        public DateTime RefreshTokenExpires { get; set; }
+        public DateTime? RefreshTokenExpires { get; set; }
 
 
 
