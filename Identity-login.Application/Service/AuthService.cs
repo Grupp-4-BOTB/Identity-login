@@ -36,6 +36,7 @@ public class AuthService
         {
             
             Email = request.Email,
+            UserName = request.Email,
             FirstName = request.FirstName,
             LastName = request.LastName,
             IsAccountConfirmed = false
@@ -43,7 +44,7 @@ public class AuthService
 
         // Här sparas lösenordshashen i bakgrunden via Identity om man vill så, 
         // men eftersom vi kör BCrypt skickar vi med den till vårt repository:
-        return await _authRepository.CreateUserAsync(newUser);
+        return await _authRepository.CreateUserAsync(newUser, request.Password);
     }
 
     public async Task<AuthResponseDto?> LoginAsync(LoginRequest request)

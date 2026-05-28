@@ -8,7 +8,7 @@ namespace Identity_login.Application.Interfaces
         
         Task<AuthResponseDto?> LoginAsync(LoginRequest request);
         Task<UserEntity?> GetByEmailAsync(string email);
-        Task<bool> CreateUserAsync(UserEntity user);
+        Task<bool> CreateUserAsync(UserEntity user, string password);
         
     }
 }
