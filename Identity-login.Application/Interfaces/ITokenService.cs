@@ -8,5 +8,7 @@ namespace Identity_login.Application.Interfaces
     public interface ITokenService
     {
         string GenerateJwtToken(UserEntity user);
+
+        string GenerateRefreshToken();
     }
 }

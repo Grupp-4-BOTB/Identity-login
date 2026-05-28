@@ -9,6 +9,6 @@ namespace Identity_login.Application.Interfaces
         Task<AuthResponseDto?> LoginAsync(LoginRequest request);
         Task<UserEntity?> GetByEmailAsync(string email);
         Task<bool> CreateUserAsync(UserEntity user, string password);
-        
+        Task UpdateUserAsync(UserEntity user);
     }
 }

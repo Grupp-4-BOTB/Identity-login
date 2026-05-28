@@ -1,7 +1,9 @@
 ﻿using Identity_login.Application.DTOs;
 using Identity_login.Application.Interfaces;
 using Identity_login.Domain.Entities;
+using Identity_login.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
@@ -11,12 +13,14 @@ namespace Identity_login.Infrastructure.Repositories
     {
         private readonly UserManager<UserEntity> _userManager;
         private readonly ITokenService _tokenService;
+        private readonly DataContext _dataContext;
 
         // Konstruktor för att kunna prata med Microsoft Identity-databasen
-        public AuthRepository(UserManager<UserEntity> userManager, ITokenService tokenService)
+        public AuthRepository(UserManager<UserEntity> userManager, ITokenService tokenService, DataContext dataContext)
         {
             _userManager = userManager;
             _tokenService = tokenService;
+            _dataContext = dataContext;
         }
 
         // SKÄRM 1: Hämtar användaren för att se om e-posten finns och om kontot är bekräftat
@@ -66,6 +70,14 @@ namespace Identity_login.Infrastructure.Repositories
         {
             var result = await _userManager.CreateAsync(user,password);
             return result.Succeeded;
+        }
+
+
+
+        public async Task UpdateUserAsync(UserEntity user)
+        {
+            _dataContext.Users.Update(user);
+            await _dataContext.SaveChangesAsync();
         }
     }
 }
