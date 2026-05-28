@@ -2,7 +2,7 @@
 using Identity_login.Application.DTOs;
 using Identity_login.Application.Interfaces;
 using Identity_login.Domain.Entities;
-
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -15,6 +15,7 @@ public class AuthService
 {
     private readonly IAuthRepository _authRepository;
     private readonly ITokenService _tokenService;
+   
 
     public AuthService(IAuthRepository authRepository, ITokenService tokenService)
     {
@@ -83,6 +84,15 @@ public class AuthService
 
     public async Task<bool> LogoutAsync(string email)
     {
+        var user = await _authRepository.GetByEmailAsync(email);
+        if (user == null) return false;
+
+        user.RefreshToken = null;
+        user.RefreshTokenCreated = DateTime.MinValue;
+        user.RefreshTokenExpires = DateTime.MinValue;
+
+        await _authRepository.UpdateUserAsync(user);
+
         return true;
     }
 }
