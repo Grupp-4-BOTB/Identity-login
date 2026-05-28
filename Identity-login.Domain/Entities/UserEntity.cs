@@ -10,9 +10,11 @@ namespace Identity_login.Domain.Entities
         // Efternamn från ditt Shiko-formulär
         public string LastName { get; set; } = string.Empty;
 
-        public string Email { get; set; } = string.Empty;
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenCreated { get; set; }
+        public DateTime RefreshTokenExpires { get; set; }
 
-        public string Password { get; set; } = string.Empty;
+
 
         // Status för att hålla koll på om användaren har slutfört "Almost There"-sidan
         public bool IsAccountConfirmed { get; set; } = false;

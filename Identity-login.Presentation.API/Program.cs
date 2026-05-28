@@ -1,4 +1,5 @@
 using Identity_login.Application.Interfaces;
+using Identity_login.Application.Services;
 using Identity_login.Domain.Entities;
 using Identity_login.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
@@ -37,7 +38,7 @@ builder.Services.AddIdentityApiEndpoints<Identity_login.Domain.Entities.UserEnti
 
 builder.Services.AddScoped<IAuthRepository, Identity_login.Infrastructure.Repositories.AuthRepository>();
 builder.Services.AddScoped<Identity_login.Application.Services.AuthService>();
-
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddHttpClient();
 

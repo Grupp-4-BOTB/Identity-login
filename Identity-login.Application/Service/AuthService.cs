@@ -14,11 +14,12 @@ namespace Identity_login.Application.Services;
 public class AuthService
 {
     private readonly IAuthRepository _authRepository;
-    
+    private readonly ITokenService _tokenService;
 
-    public AuthService(IAuthRepository authRepository)
+    public AuthService(IAuthRepository authRepository, ITokenService tokenService)
     {
         _authRepository = authRepository;
+        _tokenService = tokenService;
         
     }
 
@@ -36,6 +37,7 @@ public class AuthService
         {
             
             Email = request.Email,
+            UserName = request.Email,
             FirstName = request.FirstName,
             LastName = request.LastName,
             IsAccountConfirmed = false
@@ -43,7 +45,7 @@ public class AuthService
 
         // Här sparas lösenordshashen i bakgrunden via Identity om man vill så, 
         // men eftersom vi kör BCrypt skickar vi med den till vårt repository:
-        return await _authRepository.CreateUserAsync(newUser);
+        return await _authRepository.CreateUserAsync(newUser, request.Password);
     }
 
     public async Task<AuthResponseDto?> LoginAsync(LoginRequest request)
@@ -54,10 +56,29 @@ public class AuthService
             return null;
         }
 
-        // Här använder vi BCrypt för att verifiera mot databasen
-        // OBS: Om ni använder Identitys PasswordHash, används istället PasswordHasher.
-        // Vi kör BCrypt eftersom det är det du har valt i din logik!
-        return await _authRepository.LoginAsync(request);
+        var authResponse = await _authRepository.LoginAsync(request);
+        {
+            if (authResponse == null)
+            {
+                return null;
+            }
+        }
+
+        var newRefreshToken = _tokenService.GenerateRefreshToken();
+
+
+        user.RefreshToken = newRefreshToken;
+        user.RefreshTokenCreated = DateTime.UtcNow;
+        user.RefreshTokenExpires = DateTime.UtcNow.AddDays(7);
+
+        await _authRepository.UpdateUserAsync(user);
+        authResponse.RefreshToken = newRefreshToken;
+
+        var newAccessToken = _tokenService.GenerateJwtToken(user);
+        authResponse.AccessToken = newAccessToken;
+
+
+        return authResponse;
     }
 
     public async Task<bool> LogoutAsync(string email)
