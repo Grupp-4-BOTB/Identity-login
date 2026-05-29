@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Identity_login.Presentation.API</RootNamespace>
+    <UserSecretsId>6b3a87b1-09e2-41ba-bd02-1e848f1b5be9</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
