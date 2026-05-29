@@ -13,16 +13,19 @@ using RegisterRequest = Identity_login.Application.DTOs.RegisterRequest;
 
 // Anger grund-URL:en för alla endpoints i denna fil.
 namespace Identity_login.Presentation.API.Controllers;
-
+// Bestämmer routingen för controllern; [controller] byts automatiskt ut mot "Auth" i URL-adressen (api/Auth)
 [Route("api/[controller]")]
+// Talar om för .NET att detta är en API-controller, vilket aktiverar automatisk validering av inkommande data (t.ex. Bad Request 400)
 [ApiController]
-public class AuthController : ControllerBase
-{
+// Deklarerar klassen AuthController som ärver från ControllerBase (standard för API:er utan HTML-vyer)
+public class AuthController : ControllerBase //Den ingår i Microsofts officiella webb-bibliotek och ligger i följande namnrymd
+{// Skapar en privat variabel för att hålla reda på vår autentiseringstjänst (affärslogiken)
     private readonly AuthService _authService;
 
-    // Konstruktor för Dependency Injection
+    // Konstruktor för Dependency Injection: Här injiceras AuthService så att controllern kan använda dess funktioner
     public AuthController(AuthService authService)
     {
+        // Sparar den injicerade tjänsten i vår privata variabel så att alla endpoints i klassen når den
         _authService = authService;
     }
 
@@ -40,6 +43,36 @@ public class AuthController : ControllerBase
 
         return Ok(new { message = "User registered successfully!" });
     }
+
+
+
+    // ENDPOINT: Kontrollera om e-postadressen redan finns i Azure SQL
+    [HttpPost("check-email")]
+    public async Task<IActionResult> CheckEmail([FromBody] EmailCheckRequest request)
+    {
+        // Vi söker efter användaren i databasen med hjälp av e-postadressen
+        var user = await _authService.GetByEmailAsync(request.Email);
+
+        if (user != null)
+        {
+            // Användaren finns -> Skicka vidare till LOGIN (begär lösenord)
+            return Ok(new { exists = true });
+        }
+
+        // Användaren finns INTE -> Skicka vidare till REGISTER (Almost There)
+        return Ok(new { exists = false });
+    }
+
+    // En enkel DTO-klass för att ta emot e-postadressen från frontend
+    public class EmailCheckRequest
+    {
+        public string Email { get; set; } = null!;
+    }
+
+
+
+
+
 
 
 
